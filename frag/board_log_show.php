@@ -20,7 +20,7 @@ foreach($raw_log as $temp){
 	$text=explode("\t", $temp);
 	$result[$text[0]]["store"]=$text[1];
 	$result[$text[0]]["charge"]=$text[2];
-	$result[$text[0]]["sum"]=$text[1]+$text[2];
+	$result[$text[0]]["balance"]=$text[3];
 }
 function sort_by_index($a, $b){
 	if($a['index'] == $b['index']) return 0;
@@ -48,12 +48,19 @@ else if($sort_rule=="rvalue")usort($result,'rsort_by_sum');
 <div class = 'table-wrapper' style="overflow-x:auto;overflow-y:auto">
 <?php if($content){ ?>
 <table>
-<tr><td></td><td>姓名</td><td>儲值</td><td>扣款</td><td>小計</td></tr>
+<tr><td></td><td>姓名</td><td>儲值</td><td>扣款</td><td>當日餘額</td></tr>
 <?php
+$store_sum=0;
+$charge_sum=0;
+$balance_sum=0;
 foreach($result as $temp){
-	echo "<tr><td>".$temp["index"]."</td><td>".$temp["name"]."</td><td>".$temp["store"]."</td><td>".$temp["charge"]."</td><td>".$temp["sum"]."</td></tr>";
+	echo "<tr><td>".$temp["index"]."</td><td>".$temp["name"]."</td><td>".$temp["store"]."</td><td>".$temp["charge"]."</td><td>".$temp["balance"]."</td></tr>";
+	$store_sum+=$temp["store"];
+	$charge_sum+=$temp["charge"];
+	$balance_sum+=$temp["balance"];
 }
 ?>
+<tr><td></td><td>合計</td><td><?php echo $store_sum ?></td><td><?php echo $charge_sum ?></td><td><?php echo $balance_sum ?></td></tr>
 </table>
 <?php } else { ?>
 <?php echo $date ?> 沒有任何資料

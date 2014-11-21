@@ -17,7 +17,7 @@ foreach($raw_duty as $temp){
 	$text=explode("\t", $temp);
 	$result[$text[0]]["A"]=$text[1];
 	$result[$text[0]]["B"]=$text[2];
-	$result[$text[0]]["C"]=$text[2]/$text[1];
+	$result[$text[0]]["C"]=number_format($text[2]/$text[1]*100,0);
 }
 function sort_by_index($a, $b){
 	if($a['index'] == $b['index']) return 0;
@@ -51,7 +51,7 @@ else if($sort_rule=="rvalue")usort($result,'rsort_by_money');
 	<tr><td></td><td>姓名</td><td>訂購</td><td>值日</td><td>比例</td></tr>
 	<?php
 	foreach($result as $temp){
-		echo "<tr><td>".$temp["index"]."</td><td>".$temp["name"]."</td><td>".$temp["A"]."</td><td>".$temp["B"]."</td><td>".$temp["C"]."</td></tr>";
+		echo "<tr><td>".$temp["index"]."</td><td>".$temp["name"]."</td><td>".$temp["A"]."</td><td>".$temp["B"]."</td><td>".$temp["C"]."%</td></tr>";
 	}
 	?>
 	</table>

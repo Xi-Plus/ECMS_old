@@ -1,7 +1,7 @@
 <script>
     var datevalue = '<?php echo date("Ymd"); ?>';
 	
-    $(document).ready(function(){ loadlogPage(date); });
+    $(document).ready(function(){ loadlogPage(datevalue); });
 	
     function loadlogPage(){
         $('#logframe').load('frag/board_log_show.php',
