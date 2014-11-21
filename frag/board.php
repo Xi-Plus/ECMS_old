@@ -5,7 +5,7 @@
     $(document).ready(function(){ loadPage('money'); });
 	
     function loadPage(){
-        $('#frame').load('frag/'+current_page+'.php',
+        $('#frame').load('frag/board_'+current_page+'.php',
             {
                 sortby: sort_by
             }
@@ -24,6 +24,8 @@
 			<a id = "money" onclick = "current_page = 'money';loadPage();">餘額</a>
             <hr>
             <a id = "money" onclick = "current_page = 'duty';loadPage();">值日</a>
+			<hr>
+            <a id = "log" onclick = "current_page = 'log';loadPage();">紀錄</a>
         </div>
         
 		<br>

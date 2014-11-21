@@ -36,15 +36,16 @@
 	
 </head>
 <body>
-	<div id = "title" style = "position: relative; padding: 40px 0 16px 0">
+	<div id = "title" style = "position: relative; padding: 20px 0 16px 0">
 	<center>
 		<div style = "">
 		
 			<h1><span style = "color: #999999">E-</span>CM<span style = "color: #999999">S</span></h1>
 			
 			<div style = "color: #666666;">
-                E-Class Management System
-			<br></div>
+                E-Class Management System<br>
+				電子化班級管理系統<br>
+			</div>
 						
 			<br>
 			
