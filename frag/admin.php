@@ -33,14 +33,21 @@ if(isset($_POST['money'])){
 	$content = $_POST['money'];
 	$content = str_replace(" ", "\t", $content);
 	if(@file_put_contents("../cache/money.dat",$content)===false)echo "Failed to write file. Please check file permission.<br/>";
-	else echo "done.<br/>";
+	else echo "done.";
 }
-else if(isset($_POST['names'])){
+if(isset($_POST['duty'])){
+    echo "edit ";
+	$content = $_POST['duty'];
+	$content = str_replace(" ", "\t", $content);
+	if(@file_put_contents("../cache/duty.dat",$content)===false)echo "Failed to write file. Please check file permission.<br/>";
+	else echo "done.";
+}
+if(isset($_POST['names'])){
     echo "edit ";
 	$content = $_POST['names'];
 	$content = str_replace(" ", "\t", $content);
 	if(@file_put_contents("../config/names.dat",$content)===false)echo "Failed to write file. Please check file permission.<br/>";
-	else echo "done.<br/>";
+	else echo "done.";
 }
 ?>
 
@@ -57,6 +64,10 @@ else if(isset($_POST['names'])){
 money:<br/>
 <textarea class="config" name="money">
 <?php echo htmlentities(@file_get_contents("../cache/money.dat"))?>
+</textarea><br/>
+duty:<br/>
+<textarea class="config" name="duty">
+<?php echo htmlentities(@file_get_contents("../cache/duty.dat"))?>
 </textarea><br/>
 names:<br/>
 <textarea class="config" name="names">

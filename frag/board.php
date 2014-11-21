@@ -1,11 +1,15 @@
 <script>
     var current_page = 'money';
-
+	var sort_by = 'index';
+	
     $(document).ready(function(){ loadPage('money'); });
-
-    function loadPage(page){
-		current_page=page;
-        $('#frame').load('frag/'+current_page+'.php');
+	
+    function loadPage(){
+        $('#frame').load('frag/'+current_page+'.php',
+            {
+                sortby: sort_by
+            }
+		);
     }
 </script>
 
@@ -17,13 +21,23 @@
         <div>BOARDS:</div>
         <div style =  "text-align: right">
 			<hr>
-			<a id = "money" onclick = "loadPage('money')">餘額</a>
+			<a id = "money" onclick = "current_page = 'money';loadPage();">餘額</a>
             <hr>
-            <a id = "money" onclick = "loadPage('duty')">值日</a>
+            <a id = "money" onclick = "current_page = 'duty';loadPage();">值日</a>
         </div>
         
-        <br>
-
+		<br>
+		
+        <div>SORT BY:</div>
+        <div style =  "text-align: right">
+            <hr>
+			<div><a onclick = "sort_by = 'index'; loadPage()">index</a></div>
+            <div><a onclick = "sort_by = 'value'; loadPage()">value</a></div>
+			<div><a onclick = "sort_by = 'rvalue'; loadPage()">r_value</a></div>
+        </div>
+		
+		<br>
+		
         <div id="TOOLS">TOOLS:</div>
         <div style =  "text-align: right">
             <hr>
