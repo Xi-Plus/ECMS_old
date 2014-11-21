@@ -32,7 +32,7 @@
             </div>
         </div></p>
 		
-		Powered
+		Skin
 		<hr>
         <p><div class = 'infobox'>
             <div class = 'usericon'>
