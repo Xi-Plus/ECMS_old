@@ -56,7 +56,7 @@ function color($money){
 	<?php
 	$sum=0;
 	foreach($result as $temp){
-		echo "<tr><td>".$temp["index"]."</td><td>".$temp["name"]."</td><td style='color:".color($temp["money"])."'>".$temp["money"]."</td></tr>";
+		if($temp["index"]!="")echo "<tr><td>".$temp["index"]."</td><td>".$temp["name"]."</td><td style='color:".color($temp["money"])."'>".$temp["money"]."</td></tr>";
 		$sum+=$temp["money"];
 	}
 	?>

@@ -51,7 +51,7 @@ else if($sort_rule=="rvalue")usort($result,'rsort_by_money');
 	<tr><td></td><td>姓名</td><td>訂購</td><td>值日</td><td>比例</td></tr>
 	<?php
 	foreach($result as $temp){
-		echo "<tr><td>".$temp["index"]."</td><td>".$temp["name"]."</td><td>".$temp["A"]."</td><td>".$temp["B"]."</td><td>".$temp["C"]."%</td></tr>";
+		if($temp["index"]!="")echo "<tr><td>".$temp["index"]."</td><td>".$temp["name"]."</td><td>".$temp["A"]."</td><td>".$temp["B"]."</td><td>".$temp["C"]."%</td></tr>";
 	}
 	?>
 	</table>
