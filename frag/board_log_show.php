@@ -1,8 +1,12 @@
 <?php
 require_once("../func/EOL.php");
-$sort_rule = $_POST['sortby'];
-$date=date("Ymd");
-if($_POST["date"]!="")$date=$_POST["date"];
+$sort_rule = $_POST['sortby_log'];
+if($_POST["date"]!=""){
+	$date=$_POST["date"];
+	setcookie("ECMSlogshowdate",$date,time()+86400*7,"/");
+}else {
+	$date=date("Ymd");
+}
 $result=array();
 $content = @file_get_contents("../config/names.dat");
 $content = handleEOL($content);
@@ -26,23 +30,23 @@ function sort_by_index($a, $b){
 	if($a['index'] == $b['index']) return 0;
 	return ($a['index'] > $b['index']) ? 1 : -1;
 }
-function sort_by_sum($a, $b){
-	if($a['sum'] == $b['sum']){
+function sort_by_balance($a, $b){
+	if($a['balance'] == $b['balance']){
 		if($a['index'] == $b['index']) return 0;
 		return ($a['index'] > $b['index']) ? 1 : -1;
 	}
-	return ($a['sum'] > $b['sum']) ? 1 : -1;
+	return ($a['balance'] > $b['balance']) ? 1 : -1;
 }
-function sort_by_rsum($a, $b){
-	if($a['sum'] == $b['sum']){
+function rsort_by_balance($a, $b){
+	if($a['balance'] == $b['balance']){
 		if($a['index'] == $b['index']) return 0;
 		return ($a['index'] > $b['index']) ? 1 : -1;
 	}
-	return ($a['sum'] > $b['sum']) ? -1 : 1;
+	return ($a['balance'] > $b['balance']) ? -1 : 1;
 }
 if($sort_rule=="index")usort($result,'sort_by_index');
-else if($sort_rule=="value")usort($result,'sort_by_sum');
-else if($sort_rule=="rvalue")usort($result,'rsort_by_sum');
+else if($sort_rule=="value")usort($result,'sort_by_balance');
+else if($sort_rule=="rvalue")usort($result,'rsort_by_balance');
 }
 ?>
 <div class = 'table-wrapper' style="overflow-x:auto;overflow-y:auto">
