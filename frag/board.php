@@ -2,7 +2,7 @@
     var current_page = 'money';
 	var sort_by = 'index';
 	
-    $(document).ready(function(){ loadPage('money'); });
+    $(document).ready(function(){ loadPage(); });
 	
     function loadPage(){
         $('#frame').load('frag/board_'+current_page+'.php',

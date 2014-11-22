@@ -28,11 +28,20 @@ else if(!isset($_POST["pwd"])){
 
 <?php
 function echoAdminPage(){
+$date=date("Ymd");
 
+if(isset($_POST['log'])){
+	echo "edit ";
+	$date=$_POST['datetoadmin'];
+	$content = $_POST['log'];
+	$content = str_replace(" ", "\t", $content);
+	if(@file_put_contents("../cache/".$_POST['datetoadmin'].".dat",$content)===false)echo "Failed to write file. Please check file permission.<br/>";
+	else echo "done.";
+}
 if(isset($_POST['store'])){
     echo "edit ";
 	$result=array();
-	$date = $_POST['dateinput'];
+	$date=$_POST['datetoadmin'];
 	$content = @file_get_contents("../config/names.dat");
 	$content = handleEOL($content);
 	$raw_names = explode(PHP_EOL, $content);
@@ -42,12 +51,21 @@ if(isset($_POST['store'])){
 		$result[$text[0]]["store"]=0;
 		$result[$text[0]]["charge"]=0;
 	}
-	$content = @file_get_contents("../cache/money.dat");
-	$content = handleEOL($content);
-	$raw_money = explode(PHP_EOL, $content);
-	foreach($raw_money as $temp){
-		$text=explode("\t", $temp);
-		$result[$text[0]]["money"]=$text[1];
+	$filename="../cache/".$_POST['datetoadmin'].".dat";
+	$content = @file_get_contents($filename);
+	if($content){
+		$content = handleEOL($content);
+		$raw_log = explode(PHP_EOL, $content);
+		foreach($raw_log as $temp){
+			$text=explode("\t", $temp);
+			$result[$text[0]]["store"]+=$text[1];
+			$result[$text[0]]["charge"]+=$text[2];
+			$result[$text[0]]["money"]+=($text[3]-$text[1]-$text[2]);
+		}
+	}
+	else {
+		fopen($filename, 'w');
+		fclose($filename);
 	}
 	$store = $_POST['store'];
 	$store = handleEOL($store);
@@ -69,12 +87,10 @@ if(isset($_POST['store'])){
 	foreach($result as $temp){
 		$content.=$temp["index"]."\t".$temp["store"]."\t".$temp["charge"]."\t".($temp["money"]+$temp["store"]+$temp["charge"])."\r\n";
 	}
-	$filename="../cache/".$date.".dat";
-	fopen($filename, 'w');
-	fclose($filename);
 	if(@file_put_contents($filename,$content)===false)echo "Failed to write file. Please check file permission.<br/>";
 	else echo "done.";
 }
+
 if(isset($_POST['money'])){
     echo "edit ";
 	$content = $_POST['money'];
@@ -97,6 +113,17 @@ if(isset($_POST['names'])){
 	else echo "done.";
 }
 ?>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script>
+	$(document).ready(function(){ loadadminlogPage(); });
+	function loadadminlogPage(){
+        $('#adminlogframe').load('admin_log.php',
+            {
+				date: document.all.dateinput.value
+            }
+		);
+    }
+</script>
 
 <style>
 .config{
@@ -105,6 +132,11 @@ if(isset($_POST['names'])){
 }
 </style>
 
+Date: <input id="dateinput" name="dateinput" value="<?php echo $date; ?>">
+<input type="button" value="Submit" onclick="loadadminlogPage();">
+<div id = "adminlogframe">
+</div>
+<!--
 <form method="POST">
 <input type="submit" value="Submit"><br/>
 Date: <input id="dateinput" name="dateinput" value="<?php echo date("Ymd"); ?>">
@@ -113,7 +145,7 @@ Store:<br/>
 <textarea class="config" name="store"></textarea><br/>
 Charge:<br/>
 <textarea class="config" name="charge"></textarea><br/>
-</form>
+</form>-->
 <hr>
 <form method="POST">
 <input type="submit" value="Submit"><br/>
