@@ -51,8 +51,24 @@ if(isset($_POST['store'])){
 		$result[$text[0]]["store"]=0;
 		$result[$text[0]]["charge"]=0;
 	}
+	$content = @file_get_contents("../cache/money.dat");
+	$content = handleEOL($content);
+	$raw_money = explode(PHP_EOL, $content);
+	foreach($raw_money as $temp){
+		$text=explode("\t", $temp);
+		$result[$text[0]]["money"]=$text[1];
+	}
+	$content = @file_get_contents("../cache/duty.dat");
+	$content = handleEOL($content);
+	$raw_duty= explode(PHP_EOL, $content);
+	foreach($raw_duty as $temp){
+		$text=explode("\t", $temp);
+		$result[$text[0]]["duty1"]=$text[1];
+		$result[$text[0]]["duty2"]=$text[2];
+	}
 	$filename="../cache/".$_POST['datetoadmin'].".dat";
 	$content = @file_get_contents($filename);
+	$newfile=false;
 	if($content){
 		$content = handleEOL($content);
 		$raw_log = explode(PHP_EOL, $content);
@@ -64,8 +80,15 @@ if(isset($_POST['store'])){
 		}
 	}
 	else {
+		$newfile=true;
 		fopen($filename, 'w');
 		fclose($filename);
+	}
+	$duty = $_POST['dutytoadmin'];
+	$duty = handleEOL($duty);
+	$raw_duty=explode(" ", $duty);
+	foreach($raw_duty as $temp){
+		$result[$temp]["duty2"]++;
 	}
 	$store = $_POST['store'];
 	$store = handleEOL($store);
@@ -81,7 +104,22 @@ if(isset($_POST['store'])){
 		$text=explode(" ", $temp);
 		for($i=1;$i<count($text);$i++){
 			$result[$text[$i]]["charge"]-=$text[0];echo($text[$i]);
+			$result[$text[$i]]["duty1"]++;
 		}
+	}
+	if($newfile){
+		$content="";
+		foreach($result as $temp){
+			$content.=$temp["index"]."\t".($temp["money"]+$temp["store"]+$temp["charge"])."\r\n";
+		}
+		if(@file_put_contents("../cache/money.dat",$content)===false)echo "Failed to write file. Please check file permission.<br/>";
+		else echo "done.";
+		$content="";
+		foreach($result as $temp){
+			$content.=$temp["index"]."\t".$temp["duty1"]."\t".$temp["duty2"]."\r\n";
+		}
+		if(@file_put_contents("../cache/duty.dat",$content)===false)echo "Failed to write file. Please check file permission.<br/>";
+		else echo "done.";
 	}
 	$content="";
 	foreach($result as $temp){
@@ -136,16 +174,6 @@ Date: <input id="dateinput" name="dateinput" value="<?php echo $date; ?>">
 <input type="button" value="Submit" onclick="loadadminlogPage();">
 <div id = "adminlogframe">
 </div>
-<!--
-<form method="POST">
-<input type="submit" value="Submit"><br/>
-Date: <input id="dateinput" name="dateinput" value="<?php echo date("Ymd"); ?>">
-<br/>
-Store:<br/>
-<textarea class="config" name="store"></textarea><br/>
-Charge:<br/>
-<textarea class="config" name="charge"></textarea><br/>
-</form>-->
 <hr>
 <form method="POST">
 <input type="submit" value="Submit"><br/>
