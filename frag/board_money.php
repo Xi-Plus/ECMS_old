@@ -47,9 +47,8 @@ function color($money){
 ?>
 <div id = "money" style = "position: relative; margin-left: 80px">
 	<br>
-	<h2>餘額</h2>
-	<br>
-
+	<h2>餘額</h2>版本 : <?php echo @file_get_contents("../cache/update.dat")?>
+	<br><br>
 	<div class = 'table-wrapper' style="overflow-x:auto;overflow-y:auto">
 	<table>
 	<tr><td></td><td>姓名</td><td>餘額</td></tr>

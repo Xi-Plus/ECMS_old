@@ -31,16 +31,13 @@ function echoAdminPage(){
 $date=date("Ymd");
 
 if(isset($_POST['log'])){
-	echo "edit ";
 	$date=$_POST['datetoadmin'];
 	$content = $_POST['log'];
 	$content = str_replace(" ", "\t", $content);
 	if($content==""){unlink("../cache/".$_POST['datetoadmin'].".dat");echo "del.";}
 	else if(@file_put_contents("../cache/".$_POST['datetoadmin'].".dat",$content)===false)echo "Failed to write file. Please check file permission.<br/>";
-	else echo "done.";
 }
 if(isset($_POST['store'])){
-    echo "edit ";
 	$result=array();
 	$date=$_POST['datetoadmin'];
 	$content = @file_get_contents("../config/names.dat");
@@ -79,6 +76,7 @@ if(isset($_POST['store'])){
 			$result[$text[0]]["charge"]+=$text[2];
 			$result[$text[0]]["money"]+=($text[3]-$text[1]-$text[2]);
 		}
+		if(@file_put_contents("../cache/update.dat",$_POST['datetoadmin'])===false)echo "Failed to write file. Please check file permission.<br/>";
 	}
 	else {
 		$newfile=true;
@@ -114,42 +112,36 @@ if(isset($_POST['store'])){
 			$content.=$temp["index"]."\t".($temp["money"]+$temp["store"]+$temp["charge"])."\r\n";
 		}
 		if(@file_put_contents("../cache/money.dat",$content)===false)echo "Failed to write file. Please check file permission.<br/>";
-		else echo "done.";
 		$content="";
 		foreach($result as $temp){
 			$content.=$temp["index"]."\t".$temp["duty1"]."\t".$temp["duty2"]."\r\n";
 		}
 		if(@file_put_contents("../cache/duty.dat",$content)===false)echo "Failed to write file. Please check file permission.<br/>";
-		else echo "done.";
 	}
 	$content="";
 	foreach($result as $temp){
 		$content.=$temp["index"]."\t".$temp["store"]."\t".$temp["charge"]."\t".($temp["money"]+$temp["store"]+$temp["charge"])."\r\n";
 	}
 	if(@file_put_contents($filename,$content)===false)echo "Failed to write file. Please check file permission.<br/>";
-	else echo "done.";
 }
-
+if(isset($_POST['update'])){
+	$content = $_POST['update'];
+	if(@file_put_contents("../cache/update.dat",$content)===false)echo "Failed to write file. Please check file permission.<br/>";
+}
 if(isset($_POST['money'])){
-    echo "edit ";
 	$content = $_POST['money'];
 	$content = str_replace(" ", "\t", $content);
 	if(@file_put_contents("../cache/money.dat",$content)===false)echo "Failed to write file. Please check file permission.<br/>";
-	else echo "done.";
 }
 if(isset($_POST['duty'])){
-    echo "edit ";
 	$content = $_POST['duty'];
 	$content = str_replace(" ", "\t", $content);
 	if(@file_put_contents("../cache/duty.dat",$content)===false)echo "Failed to write file. Please check file permission.<br/>";
-	else echo "done.";
 }
 if(isset($_POST['names'])){
-    echo "edit ";
 	$content = $_POST['names'];
 	$content = str_replace(" ", "\t", $content);
 	if(@file_put_contents("../config/names.dat",$content)===false)echo "Failed to write file. Please check file permission.<br/>";
-	else echo "done.";
 }
 ?>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -178,6 +170,8 @@ Date: <input id="dateinput" name="dateinput" value="<?php echo $date; ?>">
 <hr>
 <form method="POST">
 <input type="submit" value="Submit"><br/>
+update:<input type="text" name="update" value="<?php echo @file_get_contents("../cache/update.dat")?>">
+<br/>
 money:<br/>
 <textarea class="config" name="money">
 <?php echo htmlentities(@file_get_contents("../cache/money.dat"))?>

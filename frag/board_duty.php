@@ -43,9 +43,8 @@ else if($sort_rule=="rvalue")usort($result,'rsort_by_money');
 ?>
 <div id = "money" style = "position: relative; margin-left: 80px">
 	<br>
-	<h2>值日</h2>
-	<br>
-
+	<h2>值日</h2>版本 : <?php echo @file_get_contents("../cache/update.dat")?>
+	<br><br>
 	<div class = 'table-wrapper' style="overflow-x:auto;overflow-y:auto">
 	<table>
 	<tr><td></td><td>姓名</td><td>訂購</td><td>值日</td><td>比例</td></tr>
