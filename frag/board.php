@@ -43,7 +43,7 @@
         <div id="TOOLS">TOOLS:</div>
         <div style =  "text-align: right">
             <hr>
-            <div><a onclick = "loadPage(current_page)">refresh</a></div>
+            <div><a onclick = "loadPage();">refresh</a></div>
 			<div id="settingdiv"><a onclick = 'if(document.all.setting.style.display=="none"){$("#setting").show("slow");}else{$("#setting").hide("slow");}'>setting</a></div>
 			<div id="setting" style="display:none; position: absolute; top: 25px; left: 20px; z-index: 1; text-align: left; border: 2px solid #CCC; background: #000;">Setting font color:<br><input type="color" id="color" value="#ffffff"><br><a onclick="setcookie();">submit</a><br><a onclick="unsetcookie();">unset</a></div>
         </div>
