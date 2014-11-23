@@ -35,7 +35,8 @@ if(isset($_POST['log'])){
 	$date=$_POST['datetoadmin'];
 	$content = $_POST['log'];
 	$content = str_replace(" ", "\t", $content);
-	if(@file_put_contents("../cache/".$_POST['datetoadmin'].".dat",$content)===false)echo "Failed to write file. Please check file permission.<br/>";
+	if($content==""){unlink("../cache/".$_POST['datetoadmin'].".dat");echo "del.";}
+	else if(@file_put_contents("../cache/".$_POST['datetoadmin'].".dat",$content)===false)echo "Failed to write file. Please check file permission.<br/>";
 	else echo "done.";
 }
 if(isset($_POST['store'])){
