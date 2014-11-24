@@ -76,12 +76,12 @@ if(isset($_POST['store'])){
 			$result[$text[0]]["charge"]+=$text[2];
 			$result[$text[0]]["money"]+=($text[3]-$text[1]-$text[2]);
 		}
-		if(@file_put_contents("../cache/update.dat",$_POST['datetoadmin'])===false)echo "Failed to write file. Please check file permission.<br/>";
 	}
 	else {
 		$newfile=true;
 		fopen($filename, 'w');
 		fclose($filename);
+		if(@file_put_contents("../cache/update.dat",$_POST['datetoadmin'])===false)echo "Failed to write file. Please check file permission.<br/>";
 	}
 	$duty = $_POST['dutytoadmin'];
 	$duty = handleEOL($duty);
@@ -102,25 +102,25 @@ if(isset($_POST['store'])){
 	foreach($raw_charge as $temp){
 		$text=explode(" ", $temp);
 		for($i=1;$i<count($text);$i++){
-			$result[$text[$i]]["charge"]-=$text[0];echo($text[$i]);
+			$result[$text[$i]]["charge"]-=$text[0];
 			$result[$text[$i]]["duty1"]++;
 		}
 	}
 	if($newfile){
 		$content="";
 		foreach($result as $temp){
-			$content.=$temp["index"]."\t".($temp["money"]+$temp["store"]+$temp["charge"])."\r\n";
+			if($temp["index"]!="")$content.=$temp["index"]."\t".($temp["money"]+$temp["store"]+$temp["charge"])."\r\n";
 		}
 		if(@file_put_contents("../cache/money.dat",$content)===false)echo "Failed to write file. Please check file permission.<br/>";
 		$content="";
 		foreach($result as $temp){
-			$content.=$temp["index"]."\t".$temp["duty1"]."\t".$temp["duty2"]."\r\n";
+			if($temp["index"]!="")$content.=$temp["index"]."\t".$temp["duty1"]."\t".$temp["duty2"]."\r\n";
 		}
 		if(@file_put_contents("../cache/duty.dat",$content)===false)echo "Failed to write file. Please check file permission.<br/>";
 	}
 	$content="";
 	foreach($result as $temp){
-		$content.=$temp["index"]."\t".$temp["store"]."\t".$temp["charge"]."\t".($temp["money"]+$temp["store"]+$temp["charge"])."\r\n";
+		if($temp["index"]!="")$content.=$temp["index"]."\t".$temp["store"]."\t".$temp["charge"]."\t".($temp["money"]+$temp["store"]+$temp["charge"])."\r\n";
 	}
 	if(@file_put_contents($filename,$content)===false)echo "Failed to write file. Please check file permission.<br/>";
 }
