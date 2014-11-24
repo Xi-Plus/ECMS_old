@@ -6,9 +6,28 @@ $date=$_POST['date'];
 <form method="POST">
 <input type="submit" value="Submit"><br/>
 Log:<br/>
+<div style="float:left">
 <textarea class="config" name="log">
 <?php echo htmlentities(@file_get_contents("../cache/".$date.".dat"))?>
-</textarea><br/>
+</textarea>
+<textarea class="config">
+<?php
+	$content = @file_get_contents("../cache/".$date.".dat");
+	$content = handleEOL($content);
+	$raw_log = explode("\r\n", $content);
+	$enter=0;
+	foreach($raw_log as $temp){
+		$text=explode("\t", $temp);
+		if($text[1]!=""){
+			if($enter)echo "\r\n";
+			echo $text[1]."\t".$text[2];
+			$enter=1;
+		}
+	}
+?>
+</textarea>
+</div>
+<br/>
 <input type="hidden" name="datetoadmin" value="<?php echo $date ?>">
 </form>
 <?php } else { ?>
