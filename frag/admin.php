@@ -40,6 +40,7 @@ if(isset($_POST['log'])){
 if(isset($_POST['store'])){
 	$result=array();
 	$date=$_POST['datetoadmin'];
+	//讀取姓名列表
 	$content = @file_get_contents("../config/names.dat");
 	$content = handleEOL($content);
 	$raw_names = explode(PHP_EOL, $content);
@@ -49,13 +50,16 @@ if(isset($_POST['store'])){
 		$result[$text[0]]["store"]=0;
 		$result[$text[0]]["charge"]=0;
 	}
+	//讀取原始餘額
 	$content = @file_get_contents("../cache/money.dat");
 	$content = handleEOL($content);
 	$raw_money = explode(PHP_EOL, $content);
 	foreach($raw_money as $temp){
 		$text=explode("\t", $temp);
 		$result[$text[0]]["money"]=$text[1];
+		$result[$text[0]]["logmoney"]=$text[1];
 	}
+	//讀取原始值日
 	$content = @file_get_contents("../cache/duty.dat");
 	$content = handleEOL($content);
 	$raw_duty= explode(PHP_EOL, $content);
@@ -67,14 +71,15 @@ if(isset($_POST['store'])){
 	$filename="../cache/".$_POST['datetoadmin'].".dat";
 	$content = @file_get_contents($filename);
 	$newfile=false;
+	//如果有記錄 讀取
 	if($content){
 		$content = handleEOL($content);
 		$raw_log = explode(PHP_EOL, $content);
 		foreach($raw_log as $temp){
 			$text=explode("\t", $temp);
-			$result[$text[0]]["store"]+=$text[1];
-			$result[$text[0]]["charge"]+=$text[2];
-			$result[$text[0]]["money"]+=($text[3]-$text[1]-$text[2]);
+			$result[$text[0]]["store"]=$text[1];
+			$result[$text[0]]["charge"]=$text[2];
+			$result[$text[0]]["logmoney"]=($text[3]+$text[1]+$text[2]);
 		}
 	}
 	else {
@@ -83,19 +88,23 @@ if(isset($_POST['store'])){
 		fclose($filename);
 		if(@file_put_contents("../cache/update.dat",$_POST['datetoadmin'])===false)echo "Failed to write file. Please check file permission.<br/>";
 	}
+	//處理值日
 	$duty = $_POST['dutytoadmin'];
 	$duty = handleEOL($duty);
 	$raw_duty=explode(" ", $duty);
 	foreach($raw_duty as $temp){
 		$result[$temp]["duty2"]++;
 	}
+	//處理儲值
 	$store = $_POST['store'];
 	$store = handleEOL($store);
 	$raw_store=explode(PHP_EOL, $store);
 	foreach($raw_store as $temp){
 		$text=explode(" ", $temp);
 		$result[$text[0]]["store"]+=$text[1];
+		$result[$text[0]]["money"]+=$text[1];
 	}
+	//處理扣款
 	$charge = $_POST['charge'];
 	$charge = handleEOL($charge);
 	$raw_charge=explode(PHP_EOL, $charge);
@@ -103,24 +112,26 @@ if(isset($_POST['store'])){
 		$text=explode(" ", $temp);
 		for($i=1;$i<count($text);$i++){
 			$result[$text[$i]]["charge"]-=$text[0];
+			$result[$text[$i]]["money"]-=$text[0];
 			$result[$text[$i]]["duty1"]++;
 		}
 	}
-	if($newfile){
-		$content="";
-		foreach($result as $temp){
-			if($temp["index"]!="")$content.=$temp["index"]."\t".($temp["money"]+$temp["store"]+$temp["charge"])."\r\n";
-		}
-		if(@file_put_contents("../cache/money.dat",$content)===false)echo "Failed to write file. Please check file permission.<br/>";
-		$content="";
-		foreach($result as $temp){
-			if($temp["index"]!="")$content.=$temp["index"]."\t".$temp["duty1"]."\t".$temp["duty2"]."\r\n";
-		}
-		if(@file_put_contents("../cache/duty.dat",$content)===false)echo "Failed to write file. Please check file permission.<br/>";
-	}
+	//寫入餘額
 	$content="";
 	foreach($result as $temp){
-		if($temp["index"]!="")$content.=$temp["index"]."\t".$temp["store"]."\t".$temp["charge"]."\t".($temp["money"]+$temp["store"]+$temp["charge"])."\r\n";
+		if($temp["index"]!="")$content.=$temp["index"]."\t".$temp["money"]."\r\n";
+	}
+	if(@file_put_contents("../cache/money.dat",$content)===false)echo "Failed to write file. Please check file permission.<br/>";
+	//寫入值日
+	$content="";
+	foreach($result as $temp){
+		if($temp["index"]!="")$content.=$temp["index"]."\t".$temp["duty1"]."\t".$temp["duty2"]."\r\n";
+	}
+	if(@file_put_contents("../cache/duty.dat",$content)===false)echo "Failed to write file. Please check file permission.<br/>";
+	//寫入紀錄
+	$content="";
+	foreach($result as $temp){
+		if($temp["index"]!="")$content.=$temp["index"]."\t".$temp["store"]."\t".$temp["charge"]."\t".($temp["logmoney"]+$temp["store"]+$temp["charge"])."\r\n";
 	}
 	if(@file_put_contents($filename,$content)===false)echo "Failed to write file. Please check file permission.<br/>";
 }
