@@ -20,7 +20,7 @@ Log:<br/>
 		$text=explode("\t", $temp);
 		if($text[1]!=""){
 			if($enter)echo "\r\n";
-			echo $text[1]."\t".$text[2];
+			echo ($text[1]!=0?$text[1]:"")."\t".($text[2]!=0?$text[2]:"");
 			$enter=1;
 		}
 	}
