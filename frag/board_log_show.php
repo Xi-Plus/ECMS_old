@@ -1,5 +1,6 @@
 <?php
 require_once("../func/EOL.php");
+require_once("../func/color_money.php");
 $sort_rule = $_POST['sortby_log'];
 if($_POST["date"]!=""){
 	$date=$_POST["date"];
@@ -58,7 +59,7 @@ $store_sum=0;
 $charge_sum=0;
 $balance_sum=0;
 foreach($result as $temp){
-	if($temp["index"]!="")echo "<tr><td>".$temp["index"]."</td><td>".$temp["name"]."</td><td>".$temp["store"]."</td><td>".$temp["charge"]."</td><td>".$temp["balance"]."</td></tr>";
+	if($temp["index"]!="")echo "<tr><td>".$temp["index"]."</td><td>".$temp["name"]."</td><td>".$temp["store"]."</td><td>".$temp["charge"]."</td><td>".color_money($temp["balance"])."</td></tr>";
 	$store_sum+=$temp["store"];
 	$charge_sum+=$temp["charge"];
 	$balance_sum+=$temp["balance"];

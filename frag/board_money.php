@@ -1,5 +1,6 @@
 <?php
 require_once("../func/EOL.php");
+require_once("../func/color_money.php");
 $sort_rule = $_POST['sortby'];
 $result=array();
 $content = @file_get_contents("../config/names.dat");
@@ -38,12 +39,6 @@ function rsort_by_money($a, $b){
 if($sort_rule=="index")usort($result,'sort_by_index');
 else if($sort_rule=="value")usort($result,'sort_by_money');
 else if($sort_rule=="rvalue")usort($result,'rsort_by_money');
-function color($money){
-	if($money>=250)return "#66FFE6";
-	else if($money>=100)return "#66FF00";
-	else if($money>=0)return "#FFFF00";
-	else return "#FF0000";
-}
 ?>
 <div id = "money" style = "position: relative; margin-left: 80px">
 	<br>
@@ -55,7 +50,7 @@ function color($money){
 	<?php
 	$sum=0;
 	foreach($result as $temp){
-		if($temp["index"]!="")echo "<tr><td>".$temp["index"]."</td><td>".$temp["name"]."</td><td style='color:".color($temp["money"])."'>".$temp["money"]."</td></tr>";
+		if($temp["index"]!="")echo "<tr><td>".$temp["index"]."</td><td>".$temp["name"]."</td><td>".color_money($temp["money"])."</td></tr>";
 		$sum+=$temp["money"];
 	}
 	?>
