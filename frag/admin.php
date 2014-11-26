@@ -79,7 +79,7 @@ if(isset($_POST['store'])){
 			$text=explode("\t", $temp);
 			$result[$text[0]]["store"]=$text[1];
 			$result[$text[0]]["charge"]=$text[2];
-			$result[$text[0]]["logmoney"]=($text[3]+$text[1]+$text[2]);
+			$result[$text[0]]["logmoney"]=($text[3]-$text[1]-$text[2]);
 		}
 	}
 	else {
