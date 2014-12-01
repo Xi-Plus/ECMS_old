@@ -59,7 +59,7 @@ $store_sum=0;
 $charge_sum=0;
 $balance_sum=0;
 foreach($result as $temp){
-	if($temp["index"]!="")echo "<tr><td>".$temp["index"]."</td><td>".$temp["name"]."</td><td>".$temp["store"]."</td><td>".$temp["charge"]."</td><td>".color_money($temp["balance"])."</td></tr>";
+	if($temp["index"]!="")echo "<tr><td>".$temp["index"]."</td><td>".$temp["name"]."</td><td>".($temp["store"]!=0?$temp["store"]:"")."</td><td>".($temp["charge"]!=0?$temp["charge"]:"")."</td><td>".color_money($temp["balance"])."</td></tr>";
 	$store_sum+=$temp["store"];
 	$charge_sum+=$temp["charge"];
 	$balance_sum+=$temp["balance"];
