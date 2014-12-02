@@ -22,8 +22,8 @@
         <div style =  "text-align: right">
 			<hr>
 			<a id = "money" onclick = "current_page = 'money';loadPage();">餘額</a>
-            <hr>
-            <a id = "money" onclick = "current_page = 'duty';loadPage();">值日</a>
+            <!--<hr>
+            <a id = "money" onclick = "current_page = 'duty';loadPage();">值日</a>-->
 			<hr>
             <a id = "log" onclick = "current_page = 'log';loadPage();">紀錄</a>
         </div>
