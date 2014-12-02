@@ -2,7 +2,7 @@
 <head>
     <meta charset = 'utf-8'>
 	<title>EchoStats Admin</title>
-	<link href='http://fonts.googleapis.com/css?family=Lato:400,700,900' rel='stylesheet' type='text/css'>
+	<link href='../res/css.css' rel='stylesheet' type='text/css'>
 	<link href = '../res/theme.css' rel = 'stylesheet' type = 'text/css'>
 </head>
 <body>
@@ -155,7 +155,7 @@ if(isset($_POST['names'])){
 	if(@file_put_contents("../config/names.dat",$content)===false)echo "Failed to write file. Please check file permission.<br/>";
 }
 ?>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="../func/jquery.min.js"></script>
 <script>
 	$(document).ready(function(){ loadadminlogPage(); });
 	function loadadminlogPage(){

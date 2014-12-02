@@ -4,10 +4,10 @@
 <head>
     <meta charset = 'utf-8'>
 	<title>ECMS</title>
-	<link href='http://fonts.googleapis.com/css?family=Lato:400,700,900' rel='stylesheet' type='text/css'>
+	<link href='./res/css.css' rel='stylesheet' type='text/css'>
 	<link href = './res/theme.css' rel = 'stylesheet' type = 'text/css'>
 
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="func/jquery.min.js"></script>
 	
 	<script>
 		var CONT;
