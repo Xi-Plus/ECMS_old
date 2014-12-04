@@ -36,6 +36,7 @@ Log:<br/>
 
 <form method="POST">
 <?php if(!@file_get_contents("../cache/".$date.".dat")){ ?>Duty:<input type="text" name="dutytoadmin"> <?php }	?>
+<br/>
 <input type="submit" value="Submit"><br/>
 Store:<br/>
 <textarea class="config" name="store">
