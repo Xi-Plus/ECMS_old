@@ -6,11 +6,12 @@ $date=$_POST['date'];
 <form method="POST">
 <input type="submit" value="Submit"><br/>
 Log:<br/>
-<div style="float:left">
-<textarea class="config" name="log">
+<table><tr><td>
+<textarea name="log" style="width:600px; height:300px">
 <?php echo htmlentities(@file_get_contents("../cache/".$date.".dat"))?>
 </textarea>
-<textarea class="config">
+</td><td>
+<textarea style="width:200px; height:300px">
 <?php
 	$content = @file_get_contents("../cache/".$date.".dat");
 	$content = handleEOL($content);
@@ -26,17 +27,17 @@ Log:<br/>
 	}
 ?>
 </textarea>
-</div>
-<br/>
+</td></tr></table>
+
 <input type="hidden" name="datetoadmin" value="<?php echo $date ?>">
+
 </form>
 <?php } else { ?>
 <?php echo $date ?> 新建檔案<br/>
 <?php }	?>
 
 <form method="POST">
-<?php if(!@file_get_contents("../cache/".$date.".dat")){ ?>Duty:<input type="text" name="dutytoadmin"> <?php }	?>
-<br/>
+<?php if(!@file_get_contents("../cache/".$date.".dat")){ ?>Duty:<input type="text" name="dutytoadmin"><br/> <?php }	?>
 <input type="submit" value="Submit"><br/>
 Store:<br/>
 <textarea class="config" name="store">
