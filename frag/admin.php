@@ -169,13 +169,14 @@ if(isset($_POST['names'])){
 
 <style>
 .config{
-	width:600px;
+	width:300px;
 	height:300px;
 }
 </style>
 
 Date: <input id="dateinput" name="dateinput" value="<?php echo $date; ?>">
 <input type="button" value="Submit" onclick="loadadminlogPage();">
+<br>
 <div id = "adminlogframe">
 </div>
 <hr>
@@ -183,18 +184,24 @@ Date: <input id="dateinput" name="dateinput" value="<?php echo $date; ?>">
 <input type="submit" value="Submit"><br/>
 update:<input type="text" name="update" value="<?php echo @file_get_contents("../cache/update.dat")?>">
 <br/>
+<table><tr>
+<td style="text-align:left;">
 money:<br/>
 <textarea class="config" name="money">
 <?php echo htmlentities(@file_get_contents("../cache/money.dat"))?>
-</textarea><br/>
+</textarea>
+</td><td style="text-align:left;">
 duty:<br/>
 <textarea class="config" name="duty">
 <?php echo htmlentities(@file_get_contents("../cache/duty.dat"))?>
-</textarea><br/>
+</textarea>
+</td><td style="text-align:left;">
 names:<br/>
 <textarea class="config" name="names">
 <?php echo htmlentities(@file_get_contents("../config/names.dat"))?>
-</textarea><br/>
+</textarea>
+</td>
+</td></table>
 <input type="hidden" name="pwd" value="<?=$_POST["pwd"]?>">
 
 </form>

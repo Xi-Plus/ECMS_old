@@ -1,19 +1,20 @@
 <?php
 require_once("../func/EOL.php");
 $date=$_POST['date'];
-?>
-<?php if(@file_get_contents("../cache/".$date.".dat")){ ?>
+$content=@file_get_contents("../cache/".$date.".dat");
+if($content){ ?>
+<hr>
 <form method="POST">
 <input type="submit" value="Submit"><br/>
+<table><tr><td style="text-align:left;">
 Log:<br/>
-<table><tr><td>
 <textarea name="log" style="width:600px; height:300px">
-<?php echo htmlentities(@file_get_contents("../cache/".$date.".dat"))?>
+<?php echo htmlentities($content)?>
 </textarea>
 </td><td>
-<textarea style="width:200px; height:300px">
+<br/>
+<textarea style="width:300px; height:300px">
 <?php
-	$content = @file_get_contents("../cache/".$date.".dat");
 	$content = handleEOL($content);
 	$raw_log = explode("\r\n", $content);
 	$enter=0;
@@ -32,18 +33,22 @@ Log:<br/>
 <input type="hidden" name="datetoadmin" value="<?php echo $date ?>">
 
 </form>
-<?php } else { ?>
-<?php echo $date ?> 新建檔案<br/>
-<?php }	?>
+<?php } ?>
+
+<hr>
 
 <form method="POST">
-<?php if(!@file_get_contents("../cache/".$date.".dat")){ ?>Duty:<input type="text" name="dutytoadmin"><br/> <?php }	?>
-<input type="submit" value="Submit"><br/>
+<input type="submit" value="Submit"> <?php if($content==false)echo $date."新建檔案<br/>" ?>
+<?php if(!@file_get_contents("../cache/".$date.".dat")){ ?>Duty: <input type="text" name="dutytoadmin"><br/> <?php }	?>
+<table><tr>
+<td style="text-align:left;">
 Store:<br/>
-<textarea class="config" name="store">
-</textarea><br/>
+<textarea name="store" style="width:450px; height:300px">
+</textarea>
+</td><td style="text-align:left;">
 Charge:<br/>
-<textarea class="config" name="charge">
-</textarea><br/>
+<textarea name="charge" style="width:450px; height:300px">
+</textarea>
+</td></tr></table>
 <input type="hidden" name="datetoadmin" value="<?php echo $date ?>">
 </form>
