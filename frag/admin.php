@@ -9,18 +9,17 @@
 
 <?php
 require_once("../func/EOL.php");
-if(md5($_COOKIE["ECMSadmin"]."ECMS")=="a34a9753321d94b6e09af0f0bfef71e1")echoAdminPage();
-else if(!isset($_POST["pwd"])){
+if(md5($_COOKIE["ECMSadmin"]."ECMS")=="a34a9753321d94b6e09af0f0bfef71e1"){
+	echoAdminPage();
+}else if(!isset($_POST["pwd"])){
 	echoLoginPage();
+}else if( md5(md5($_POST["pwd"])."ECMS") == "a34a9753321d94b6e09af0f0bfef71e1" ){
+	echo "login succeeded<br/><br/>";
+	setcookie("ECMSadmin",md5($_POST["pwd"]),time()+86400*7);
+	echoAdminPage();
 }else{
-	if( md5(md5($_POST["pwd"])."ECMS") == "a34a9753321d94b6e09af0f0bfef71e1" ){
-		echo "login succeeded<br/><br/>";
-		setcookie("ECMSadmin",md5($_POST["pwd"]),time()+86400*7);
-		echoAdminPage();
-	}else{
-		echo "wrong password<br/><br/>";
-		echoLoginPage();
-	}
+	echo "wrong password<br/><br/>";
+	echoLoginPage();
 }
 
 ?>
