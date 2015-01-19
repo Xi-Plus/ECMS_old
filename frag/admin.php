@@ -153,6 +153,9 @@ if(isset($_POST['names'])){
 	$content = str_replace(" ", "\t", $content);
 	if(@file_put_contents("../config/names.dat",$content)===false)echo "Failed to write file. Please check file permission.<br/>";
 }
+if(isset($_POST["logout"])){
+	setcookie("ECMSadmin","",time());
+}
 ?>
 <script src="../func/jquery.min.js"></script>
 <script>
@@ -205,6 +208,10 @@ names:<br/>
 
 </form>
 
+<form method="POST">
+<input type="submit" value="Log Out">
+<input type="hidden" name="logout" value="true">
+</form>
 <?php } ?>
 
 <?php
