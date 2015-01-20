@@ -154,9 +154,8 @@ if(isset($_POST['names'])){
 	if(@file_put_contents("../config/names.dat",$content)===false)echo "Failed to write file. Please check file permission.<br/>";
 }
 if(isset($_POST["logout"])){
-	echo "<script>location.reload();</script>";
-	echoLoginPage();
 	setcookie("ECMSadmin","",time());
+	echo "<script>location.reload();</script>";
 }
 ?>
 <script src="../func/jquery.min.js"></script>
