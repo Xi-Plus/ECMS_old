@@ -138,6 +138,10 @@ if(isset($_POST['update'])){
 	$content = $_POST['update'];
 	if(@file_put_contents("../cache/update.dat",$content)===false)echo "Failed to write file. Please check file permission.<br/>";
 }
+if(isset($_POST['difference'])){
+	$content = $_POST['difference'];
+	if(@file_put_contents("../cache/difference.dat",$content)===false)echo "Failed to write file. Please check file permission.<br/>";
+}
 if(isset($_POST['money'])){
 	$content = $_POST['money'];
 	$content = str_replace(" ", "\t", $content);
@@ -186,6 +190,7 @@ Date: <input id="dateinput" name="dateinput" value="<?php echo $date; ?>">
 <form method="POST">
 <input type="submit" value="Submit"><br/>
 update:<input type="text" name="update" value="<?php echo @file_get_contents("../cache/update.dat")?>">
+difference:<input type="text" name="difference" value="<?php echo @file_get_contents("../cache/difference.dat")?>">
 <br/>
 <table><tr>
 <td style="text-align:left;">

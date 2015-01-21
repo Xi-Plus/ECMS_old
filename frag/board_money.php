@@ -42,16 +42,21 @@ else if($sort_rule=="rvalue")usort($result,'rsort_by_money');
 ?>
 <div id = "money" style = "position: relative; margin-left: 80px">
 	<br>
-	<h2>餘額</h2>版本 : <?php echo @file_get_contents("../cache/update.dat")?>
+	<?php
+	$sum=0;
+	foreach($result as $temp){
+		$sum+=$temp["money"];
+	}
+	$realbal=$sum+@file_get_contents("../cache/difference.dat");
+	?>
+	<h2>餘額</h2>版本：<?php echo @file_get_contents("../cache/update.dat");?>　實際餘額：<?php echo $realbal;?>　可訂購份數：<?php echo floor($realbal/60);?>
 	<br><br>
 	<div class = 'table-wrapper' style="overflow-x:auto;overflow-y:auto">
 	<table>
 	<tr><td></td><td>姓名</td><td>餘額</td></tr>
 	<?php
-	$sum=0;
 	foreach($result as $temp){
 		if($temp["index"]!="")echo "<tr><td>".$temp["index"]."</td><td>".$temp["name"]."</td><td>".color_money($temp["money"])."</td></tr>";
-		$sum+=$temp["money"];
 	}
 	?>
 	<tr><td></td><td>合計</td><td><?php echo $sum ?></td></tr>
